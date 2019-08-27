@@ -153,9 +153,9 @@ def main(_):
         summary_op = tf.summary.merge(list(summaries), name='summary_op')
 
         #指定需要加载的变量，加载预训练模型
-        fine_tune_path = 'checkpoints/vgg_16.ckpt'
-        variables_to_restore = slim.get_variables_to_restore(exclude=['global_step','vgg_16/fc8'])
-        init_fn = slim.assign_from_checkpoint_fn(fine_tune_path, variables_to_restore, ignore_missing_vars=True)
+        #fine_tune_path = 'checkpoints/vgg_16.ckpt'
+        #variables_to_restore = slim.get_variables_to_restore(exclude=['global_step','vgg_16/fc8'])
+        #init_fn = slim.assign_from_checkpoint_fn(fine_tune_path, variables_to_restore, ignore_missing_vars=True)
         #配置GPU
         session_config = tf.ConfigProto(allow_soft_placement=True)
         session_config.gpu_options.per_process_gpu_memory_fraction = 0.9
@@ -170,8 +170,8 @@ def main(_):
             logdir=output_path,
             master='',
             is_chief=True,
-            init_fn=init_fn,
-            #init_fn=None,
+            #init_fn=init_fn,
+            init_fn=None,
             summary_op=summary_op,
             number_of_steps=max_steps,
             log_every_n_steps=1,
