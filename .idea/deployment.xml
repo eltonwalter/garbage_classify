@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="PublishConfigData" autoUpload="Always" serverName="lab-server">
+    <serverData>
+      <paths name="lab-server">
+        <serverdata>
+          <mappings>
+            <mapping deploy="/huawei/gbg_classify" local="$PROJECT_DIR$" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
+      <paths name="wangchong@10.7.200.4:22">
+        <serverdata>
+          <mappings>
+            <mapping deploy="/home/wangchong/huawei/gbg_classify" local="$PROJECT_DIR$" />
+          </mappings>
+        </serverdata>
+      </paths>
+    </serverData>
+    <option name="myAutoUpload" value="ALWAYS" />
+  </component>
+</project>
