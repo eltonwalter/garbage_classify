@@ -128,8 +128,8 @@ def main(_):
                                               learning_rate_decay_factor,
                                               staircase = False,
                                               name = 'exponential_decay_learning_rate')
-            # optimizer = tf.train.GradientDescentOptimizer(learning_rate)
-            optimizer = tf.train.MomentumOptimizer(learning_rate, momentum=0.9)
+            optimizer = tf.train.GradientDescentOptimizer(learning_rate)
+            # optimizer = tf.train.MomentumOptimizer(learning_rate, momentum=0.9)
 
             summaries.add(tf.summary.scalar('learning_rate', learning_rate))
 
