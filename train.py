@@ -2,16 +2,15 @@
 # coding: utf-8
 
 # 导入包
-import os
 import tensorflow as tf
-from glob import glob
 from deployment import model_deploy
 from nets import vgg
+from deployment import get_files
 
 slim = tf.contrib.slim
 
 # 配置信息：数据集位置及模型存储位置
-folder_dir = '../train_data/'
+folder_dir = '../data/train/'
 output_path = 'logs/'
 
 # 数据信息（类型数及数据总量）
@@ -33,29 +32,9 @@ num_clones = 2
 # 其他初始化
 VGG_MEAN_rgb = [123.68, 116.779, 103.939]
 
-
-# 读取数据
-def get_files(folder_dir):
-    label_files = glob(os.path.join(folder_dir, '*.txt'))
-    img_paths = []
-    labels = []
-    for index, file_path in enumerate(label_files):
-        with open(file_path, 'r') as f:
-            line = f.readline()
-        line_split = line.strip().split(', ')
-        if len(line_split) != 2:
-            print('%s contain error lable' % os.path.basename(file_path))
-            continue
-        img_name = line_split[0]
-        label = int(line_split[1])
-        img_paths.append(os.path.join(folder_dir, img_name))
-        labels.append(label)
-    return img_paths,labels
-
-
 # 读取batch
 def reader():
-    all_images_path, all_labels = get_files(folder_dir)
+    all_images_path, all_labels = get_files.get_files1(folder_dir)
     file_dir_queue = tf.train.slice_input_producer([all_images_path, all_labels],shuffle=True,capacity=512)
     img_contents = tf.read_file(file_dir_queue[0])
     label = tf.cast(tf.one_hot(file_dir_queue[1], num_classes), tf.float32)
@@ -117,7 +96,7 @@ def main(_):
         for variable in slim.get_model_variables():
             summaries.add(tf.summary.histogram(variable.op.name, variable))
 
-        with tf.device(deploy_config.optimizer_device()): 
+        with tf.device(deploy_config.optimizer_device()):
             # 改变学习率，设置优化器
             # learning_rate = tf.train.piecewise_constant(global_step, [200, 500], [0.003, 0.0003, 0.0001])
             # staircase=True:每个poch更新学习率  False:每一步更新学习率
